@@ -1,0 +1,113 @@
+/* IMPORT Montserrat from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap');
+
+@font-face {
+  font-family: LL-d;
+  src: url('/fonts/linux-libertine/LinLibertine_DR.otf');
+}
+@font-face {
+  font-family: LL-r;
+  src: url('/fonts/linux-libertine/LinLibertine_R.otf');
+}
+@font-face {
+  font-family: LL-b;
+  src: url('/fonts/linux-libertine/LinLibertine_RB.otf');
+}
+
+/* SET custom variables */
+:root {
+  --primary: #1f2022;
+  --secondary: #b0d6f5;
+  --hover: #46759c;
+  --warning: #da0f41;
+  --background: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  color: var(--primary);
+}
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: var(--background);
+}
+a {
+  text-decoration: none;
+}
+
+/* BUTTON styling */
+button,
+.btn {
+  background: var(--secondary);
+  border-radius: 10px;
+  border: 0;
+  padding: 8px 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-block;
+  transition: 0.5s ease-in-out;
+}
+button:hover,
+.btn:hover {
+  background: var(--hover);
+  color: white;
+}
+button:disabled {
+  opacity: 0.5;
+  color: var(--primary);
+  background: var(--secondary);
+  cursor: not-allowed;
+}
+
+/* FORM styling */
+.form-container {
+  display: flex;
+  height: 90%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+form {
+  width: 400px;
+  text-align: center;
+}
+input,
+textarea {
+  border: 0;
+  border-bottom: 1px solid var(--secondary);
+  border-bottom: 1px solid lightgrey;
+  padding: 10px;
+  outline: none;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 20px auto;
+}
+form button {
+  margin-top: 10px;
+}
+.error {
+  color: var(--warning);
+  font-size: 14px;
+}
+form .error {
+  margin: 16px 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}

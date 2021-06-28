@@ -1,30 +1,54 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div class="app-container">
+    <Sidebar v-if="!user" />
+    <ProfileNav @profile="showProfile" v-if="profileTog && user" />
+    <div class="page-container">
+      <div class="header">
+        <WelcomeNav v-if="!user" />
+        <Navbar @profile="showProfile" v-else />
+      </div>
+      <div class="page-content">
+        <router-view />
+      </div>
+    </div>
   </div>
-  <router-view/>
 </template>
 
+<script>
+import getUser from './composables/getUser'
+import { ref } from '@vue/reactivity'
+import Sidebar from './components/Sidebar.vue'
+import ProfileNav from './components/ProfileNav.vue'
+import WelcomeNav from './components/WelcomeNav.vue'
+import Navbar from './components/Navbar.vue'
+
+export default {
+  components: { Sidebar, ProfileNav, WelcomeNav, Navbar },
+  setup() {
+    const { user } = getUser()
+    const profileTog = ref(false)
+    const showProfile = () => {
+      profileTog.value = !profileTog.value
+    }
+    return { user, showProfile, profileTog }
+  },
+}
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+.app-container {
+  display: flex;
+  height: 100vh;
 }
-
-#nav {
-  padding: 30px;
+.page-container {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
 }
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.header {
+  flex: 0 1 auto;
 }
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.page-content {
+  flex: 1 1 auto;
 }
 </style>

@@ -1,0 +1,10 @@
+{
+  "p": ["people", "People"],
+  "t": ["things", "Things"],
+  "i": ["ideas", "Ideas"],
+  "d": ["data", "Data"],
+  "s": ["yes", "Yes"],
+  "nots": ["no", "No"],
+  "c": ["yes", "Yes"],
+  "notc": ["no", "No"]
+}
