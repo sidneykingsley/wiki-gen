@@ -1,19 +1,9 @@
 # wiki-gen
 
-## Project setup
-```
-npm install
-```
+## Final Year Project
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## DAT611
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Digital Media Design (BSc)
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## University of Plymouth
