@@ -1,9 +1,9 @@
 # wiki-gen
 
-## Final Year Project
+Final Year Project
 
-## DAT611
+DAT611
 
-## Digital Media Design (BSc)
+Digital Media Design (BSc)
 
-## University of Plymouth
+_University of Plymouth_
