@@ -42,14 +42,19 @@ export default {
 
 <style scoped>
 .sidebar-container {
-  background: #f6f6f6;
+  background: var(--nav-bg);
 }
 .sidebar {
   min-height: 90%;
   margin-top: 50px;
   white-space: nowrap;
-  border-right: solid 1px #b0d6f5;
-  border-image: linear-gradient(to top, rgba(255, 255, 255, 0), #b0d6f5) 27/1px;
+  border-right: solid 1px var(--secondary);
+  border-image: linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0),
+      var(--secondary)
+    )
+    27/1px;
   border-image-width: 0 1px 0 0;
   display: flex;
   flex-direction: column;
@@ -83,7 +88,7 @@ export default {
 .links a {
   font-size: 14px;
   padding: 10px 30px;
-  color: #0645ad;
+  color: var(--links);
 }
 .links a:hover {
   text-decoration: underline;
@@ -97,6 +102,6 @@ export default {
   font-size: 12px;
   padding-top: 0;
   padding-bottom: 10px;
-  color: #0645ad;
+  color: var(--links);
 }
 </style>

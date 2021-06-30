@@ -28,17 +28,18 @@ export default {
   setup(props, context) {
     const answerError = ref(props.error)
     const formQuestion = ref('')
+    console.log('Props.type = ' + props.type)
     switch (props.type) {
-      case 'pt':
+      case 0:
         formQuestion.value = 'People or things?'
         break
-      case 'id':
+      case 1:
         formQuestion.value = 'Ideas or data?'
         break
-      case 's':
+      case 2:
         formQuestion.value = 'Are you sociable?'
         break
-      case 'c':
+      case 3:
         formQuestion.value = 'Do you like rules?'
         break
       case 'err':

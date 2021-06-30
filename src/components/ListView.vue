@@ -26,7 +26,7 @@ export default {
   background: white;
   margin: 16px 0;
   transition: all ease 0.2s;
-  border: solid 2px #eee;
+  border: solid 2px var(--off-white);
 }
 .single:hover {
   box-shadow: 1px 2px 3px rgba(50, 50, 50, 0.05);

@@ -16,8 +16,6 @@ export default {
   components: { ListView },
   setup() {
     const { error, documents } = getCollection('playlists')
-    console.log(documents)
-
     return { error, documents }
   },
 }

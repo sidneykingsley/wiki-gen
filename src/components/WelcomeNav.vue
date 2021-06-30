@@ -52,13 +52,18 @@ export default {
 
 <style scoped>
 nav {
-  background: #f6f6f6;
+  background: var(--nav-bg);
   display: flex;
   align-items: flex-end;
   margin: 0 auto;
   height: 65px;
-  border-bottom: solid 1px #b0d6f5;
-  border-image: linear-gradient(to left, rgba(255, 255, 255, 0), #b0d6f5) 27/1px;
+  border-bottom: solid 1px var(--secondary);
+  border-image: linear-gradient(
+      to left,
+      rgba(255, 255, 255, 0),
+      var(--secondary)
+    )
+    27/1px;
   border-top: 0;
   border-left: 0;
   border-bottom: solid;
@@ -78,11 +83,20 @@ nav {
   padding: 0 10px;
   display: flex;
   align-items: flex-end;
-  border-left: solid 1px #b0d6f5;
-  border-right: solid 1px #b0d6f5;
-  border-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #b0d6f5) 1/1px;
+  border-left: solid 1px var(--secondary);
+  border-right: solid 1px var(--secondary);
+  border-image: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0),
+      var(--secondary)
+    )
+    1/1px;
   border-image-width: 0 1px 0 1px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    var(--background)
+  );
 }
 .closed-tab {
   padding: 0 10px;
@@ -90,11 +104,16 @@ nav {
   margin-bottom: -1px;
   display: flex;
   align-items: flex-end;
-  border-left: solid 1px #b0d6f5;
-  border-right: solid 1px #b0d6f5;
-  border-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #b0d6f5) 1/1px;
+  border-left: solid 1px var(--secondary);
+  border-right: solid 1px var(--secondary);
+  border-image: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0),
+      var(--secondary)
+    )
+    1/1px;
   border-top: 0;
-  border-bottom: solid 1px #b0d6f5;
+  border-bottom: solid 1px var(--secondary);
   border-image-width: 0 1px 1px 1px;
   background: linear-gradient(
     to bottom,
@@ -109,7 +128,7 @@ nav {
   white-space: nowrap;
 }
 .closed-tab .tab-link {
-  color: #0645ad;
+  color: var(--links);
   padding-bottom: 7.5px;
 }
 </style>

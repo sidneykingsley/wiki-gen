@@ -13,6 +13,11 @@ let app
 projectAuth.onAuthStateChanged(() => {
   if (!app) {
     app = createApp(App)
+      .directive('focus', {
+        mounted(el) {
+          el.focus()
+        },
+      })
       .use(router)
       .mount('#app')
   }

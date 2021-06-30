@@ -19,8 +19,11 @@
   --primary: #1f2022;
   --secondary: #b0d6f5;
   --hover: #46759c;
+  --links: #0645ad;
   --warning: #da0f41;
   --background: #ffffff;
+  --off-white: lightgrey;
+  --nav-bg: #f6f6f6;
 }
 
 * {
@@ -83,7 +86,7 @@ input,
 textarea {
   border: 0;
   border-bottom: 1px solid var(--secondary);
-  border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid var(--off-white);
   padding: 10px;
   outline: none;
   display: block;

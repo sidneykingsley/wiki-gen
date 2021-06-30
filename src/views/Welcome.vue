@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h2>Generate your future Wikipedia biography.</h2>
+    <h2>Generate your future as a Wikipedia article.</h2>
     <router-link class="btn" :to="{ name: 'Login' }">
       Get started
     </router-link>

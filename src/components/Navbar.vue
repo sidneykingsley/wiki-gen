@@ -53,9 +53,14 @@ nav {
   align-items: center;
   margin: 0 auto;
   height: 65px;
-  background: #f6f6f6;
-  border-bottom: solid 1px #b0d6f5;
-  border-image: linear-gradient(to left, rgba(255, 255, 255, 0), #b0d6f5) 27/1px;
+  background: var(--nav-bg);
+  border-bottom: solid 1px var(--secondary);
+  border-image: linear-gradient(
+      to left,
+      rgba(255, 255, 255, 0),
+      var(--secondary)
+    )
+    27/1px;
   border-top: 0;
   border-left: 0;
   border-bottom: solid;
