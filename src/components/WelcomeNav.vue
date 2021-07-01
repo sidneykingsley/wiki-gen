@@ -115,11 +115,12 @@ nav {
   border-top: 0;
   border-bottom: solid 1px var(--secondary);
   border-image-width: 0 1px 1px 1px;
-  background: linear-gradient(
+  /* background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0),
+    var(--nav-bg),
     rgba(176, 214, 245, 0.5)
-  );
+  ); */
+  background: linear-gradient(to bottom, var(--nav-bg), var(--ombre));
 }
 .open-tab .tab-link,
 .closed-tab .tab-link {

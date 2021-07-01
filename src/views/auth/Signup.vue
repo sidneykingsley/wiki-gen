@@ -33,7 +33,7 @@ import addUserDoc from '@/composables/addUserDoc'
 export default {
   setup() {
     const { error, signup, isPending } = useSignup()
-    const { addDoc } = addUserDoc('users')
+    const { addUserDocError, addDoc } = addUserDoc('users')
     const router = useRouter()
     const email = ref('')
     const password = ref('')
@@ -42,15 +42,14 @@ export default {
     const handleSubmit = async () => {
       const res = await signup(email.value, password.value)
       if (!error.value) {
-        console.log(res.user.uid)
-        const docRes = await addDoc({
+        addDoc({
           uid: res.user.uid,
           firstName: firstName.value,
           secondName: secondName.value,
         })
-        if (docRes) {
-          console.log('User signed up.')
+        if (!addUserDocError.value) {
           router.push({ name: 'Home' })
+          console.log('User signed up.')
         }
       }
     }

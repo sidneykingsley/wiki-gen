@@ -18,13 +18,32 @@
 :root {
   --primary: #1f2022;
   --secondary: #b0d6f5;
+  --primary-bold: #000;
+  --off-primary: #64676b;
   --hover: #46759c;
   --links: #0645ad;
   --warning: #da0f41;
   --background: #ffffff;
-  --off-white: lightgrey;
+  --off-bg1: #ddd;
+  --off-bg2: #ddd;
   --nav-bg: #f6f6f6;
+  --ombre: rgba(176, 214, 245, 0.5);
 }
+
+/* :root {
+  --primary: #ddd;
+  --secondary: #2c5f88;
+  --primary-bold: white;
+  --off-primary: #aaa;
+  --hover: #46759c;
+  --links: #3a89ca;
+  --warning: #da0f41;
+  --background: #121212;
+  --off-bg1: darkgrey;
+  --off-bg2: #191919;
+  --nav-bg: #131313;
+  --ombre: rgba(44, 95, 136, 0.3);
+} */
 
 * {
   margin: 0;
@@ -56,7 +75,7 @@ button,
   font-weight: 600;
   cursor: pointer;
   display: inline-block;
-  transition: 0.5s ease-in-out;
+  transition: 0.3s ease-in;
 }
 button:hover,
 .btn:hover {
@@ -85,14 +104,14 @@ form {
 input,
 textarea {
   border: 0;
-  border-bottom: 1px solid var(--secondary);
-  border-bottom: 1px solid var(--off-white);
+  border-bottom: 1px solid var(--off-bg1);
   padding: 10px;
   outline: none;
   display: block;
   width: 100%;
   box-sizing: border-box;
   margin: 20px auto;
+  background-color: var(--background);
 }
 form button {
   margin-top: 10px;
@@ -105,12 +124,25 @@ form .error {
   margin: 16px 0;
 }
 
+/* TRANSITION and ANIMATION styling */
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 0.3s ease-in;
 }
 
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+@keyframes shine {
+  0% {
+    background-position: 0;
+  }
+  60% {
+    background-position: 400px;
+  }
+  100% {
+    background-position: 400px;
+  }
 }

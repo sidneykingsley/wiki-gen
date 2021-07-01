@@ -55,7 +55,7 @@ export default {
   padding: 30px 0;
   height: 65px;
   justify-content: space-between;
-  background: #ddd;
+  background: var(--off-bg2);
 }
 .section-heading {
   font-family: LL-d, 'Linux Libertine', 'Georgia', 'Times', serif;

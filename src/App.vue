@@ -1,11 +1,7 @@
 <template>
   <div class="app-container">
     <Sidebar v-if="!user" />
-    <ProfileNav
-      @profile="showProfile"
-      v-if="profileTog && user"
-      :details="userDoc"
-    />
+    <ProfileNav @profile="showProfile" v-if="profileTog && user" />
     <div class="page-container">
       <div class="header">
         <WelcomeNav v-if="!user" />
@@ -31,13 +27,11 @@ export default {
   components: { Sidebar, ProfileNav, WelcomeNav, Navbar },
   setup() {
     const { user } = getUser()
-    const { error, document: userDoc } = getDocument('users', user.value.uid)
     const profileTog = ref(false)
     const showProfile = () => {
-      console.log(userDoc)
       profileTog.value = !profileTog.value
     }
-    return { user, showProfile, profileTog, userDoc }
+    return { user, showProfile, profileTog }
   },
 }
 </script>

@@ -78,6 +78,21 @@ nav {
   font-variant: small-caps;
   letter-spacing: 1px;
 }
+.logo :hover {
+  background: linear-gradient(
+    to right,
+    var(--off-primary) 0,
+    var(--primary-bold) 10%,
+    var(--off-primary) 20%
+  );
+  background-position: 0;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 16s infinite linear;
+  animation-fill-mode: forwards;
+  -webkit-text-size-adjust: none;
+}
 .profile-icon a:hover {
   color: var(--secondary);
   cursor: pointer;

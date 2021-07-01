@@ -1,17 +1,14 @@
 <template>
   <div class="sidebar-container">
     <div class="profile-sidebar">
-      <div class="dot-container">
-        <span class="dot"></span>
-      </div>
-      <p class="user-msg">
+      <p class="user-msg" v-if="userDoc">
         Hi,
         <span style="text-transform: capitalize">
-          {{ props.details.firstName }}
+          {{ userDoc.firstName }}
         </span>
       </p>
-      <a href="">My Details</a>
-      <a href="">My Articles</a>
+      <a href="">View Articles</a>
+      <a href="">Edit Profile</a>
       <a @click="handleClick" v-if="!isPending">
         Log out
       </a>
@@ -25,12 +22,17 @@
 <script>
 import useLogout from '../composables/useLogout'
 import { useRouter } from 'vue-router'
+import getUser from '../composables/getUser'
+import getDocument from '../composables/getDocument'
 
 export default {
-  props: ['details'],
   setup(props, context) {
+    const { user } = getUser()
+    const { docError, document: userDoc } = getDocument('users', user.value.uid)
+    console.log(userDoc)
     const { logout, error, isPending } = useLogout()
     const router = useRouter()
+    console.log(props)
 
     const handleClick = async () => {
       await logout()
@@ -40,7 +42,7 @@ export default {
       }
     }
 
-    return { isPending, handleClick, props }
+    return { isPending, handleClick, userDoc }
   },
 }
 </script>
@@ -67,31 +69,22 @@ export default {
 }
 .profile-sidebar a {
   font-size: 14px;
-  padding: 10px 35px;
+  padding: 7px 35px;
   color: var(--links);
 }
 .profile-sidebar a:hover {
   text-decoration: underline;
 }
-.dot-container {
-  margin: 0 auto;
-}
-.dot {
-  height: 100px;
-  width: 100px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  margin-bottom: 10px;
-}
 .user-msg {
-  padding: 10px 5px 10px 5px;
-  margin: 0px 30px 5px 30px;
+  /* padding: 5px 5px 10px 5px;
+  margin: 0px 30px 10px 30px; */
+  padding: 5px 5px 7px 0px;
+  margin: 20px 30px 10px 30px;
   line-height: 28px;
   font-size: 20px;
-  font-weight: 500;
-  /* border-bottom: solid 1px var(--primary); */
+  font-weight: 600;
   border-bottom: solid 1px var(--links);
+  border-bottom: solid 2px var(--primary);
 }
 .logout {
   cursor: not-allowed;
