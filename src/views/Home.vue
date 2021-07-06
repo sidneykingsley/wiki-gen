@@ -1,22 +1,67 @@
 <template>
   <div class="home">
-    <div v-if="error" class="error">Could not fetch the data.</div>
-    <div v-if="documents">
-      <ListView :playlists="documents" />
-    </div>
+    <transition name="slide-fade">
+      <div
+        class="list-container"
+        :class="{ noradius: !articleId }"
+        v-if="!expanded"
+      >
+        <div v-if="error" class="error">Could not fetch the data.</div>
+        <div v-if="documents">
+          <ListView :articles="documents" @focused="handleFocus" />
+        </div>
+      </div>
+    </transition>
+    <transition name="slide-fade2">
+      <div class="focus" v-if="articleId">
+        <transition name="fade" mode="out-in">
+          <ListFocus
+            :key="articleId"
+            :article="articleId"
+            :expanded="expanded"
+            @close="handleClose"
+            @expand="handleExpand"
+          />
+        </transition>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
 import ListView from '../components/ListView.vue'
+import ListFocus from '../components/ListFocus.vue'
 import getCollection from '../composables/getCollection'
+import { ref } from '@vue/reactivity'
 
 export default {
   name: 'Home',
-  components: { ListView },
+  components: { ListView, ListFocus },
   setup() {
-    const { error, documents } = getCollection('playlists')
-    return { error, documents }
+    const { error, documents } = getCollection('articles')
+    const articleId = ref(null)
+    const focusTog = ref(false)
+    const expanded = ref(false)
+    const handleFocus = (id) => {
+      focusTog.value = !focusTog.value
+      articleId.value = id
+    }
+    const handleClose = () => {
+      articleId.value = null
+    }
+    const handleExpand = () => {
+      expanded.value = !expanded.value
+    }
+    return {
+      error,
+      documents,
+      handleFocus,
+      articleId,
+      focusTog,
+      handleClose,
+      handleExpand,
+      expanded,
+    }
   },
 }
 </script>
@@ -24,5 +69,39 @@ export default {
 <style scoped>
 .home {
   width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  background: var(--off-bg2);
+}
+.list-container {
+  width: 100%;
+  border-radius: 0 20px 0px 0;
+  background: var(--background);
+  box-shadow: var(--bg-shadow) 0px 5px 15px;
+  z-index: 2;
+}
+.noradius {
+  border-radius: 0;
+  margin-right: 0;
+}
+.arrow-container {
+  display: flex;
+  align-items: center;
+}
+.arrow-left {
+  width: 0;
+  height: 0;
+  border-top: 25px solid transparent;
+  border-bottom: 25px solid transparent;
+  border-right: 25px solid var(--off-bg2);
+}
+.focus {
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--off-bg2); */
+  width: 100%;
+  z-index: 1;
 }
 </style>

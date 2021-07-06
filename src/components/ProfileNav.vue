@@ -7,13 +7,14 @@
           {{ userDoc.firstName }}
         </span>
       </p>
-      <a href="">View Articles</a>
-      <a href="">Edit Profile</a>
-      <a @click="handleClick" v-if="!isPending">
+      <a @click="useNav('Home')">Home</a>
+      <a @click="useNav('')">View Articles</a>
+      <a @click="useNav('ProfileView')">Edit Profile</a>
+      <a @click="handleLogOut" v-if="!isPending">
         Log out
       </a>
-      <a @click="handleClick" class="logout" v-else>
-        Pending..
+      <a v-if="isPending" style="color:var(--off-primary)">
+        Logging out..
       </a>
     </div>
   </div>
@@ -22,27 +23,33 @@
 <script>
 import useLogout from '../composables/useLogout'
 import { useRouter } from 'vue-router'
-import getUser from '../composables/getUser'
-import getDocument from '../composables/getDocument'
+import getUserDoc from '../composables/getUserDoc'
 
 export default {
+  props: ['user'],
+  emits: ['profile'],
   setup(props, context) {
-    const { user } = getUser()
-    const { docError, document: userDoc } = getDocument('users', user.value.uid)
-    console.log(userDoc)
+    const { userDoc, userDocError, load } = getUserDoc(props.user.uid)
+    load()
     const { logout, error, isPending } = useLogout()
     const router = useRouter()
-    console.log(props)
-
-    const handleClick = async () => {
+    const useNav = (dir) => {
+      router.push({ name: dir })
+      context.emit('profile')
+    }
+    const handleLogOut = async () => {
       await logout()
       if (!error.value) {
         context.emit('profile')
         router.push({ name: 'Login' })
       }
     }
-
-    return { isPending, handleClick, userDoc }
+    return {
+      isPending,
+      handleLogOut,
+      userDoc,
+      useNav,
+    }
   },
 }
 </script>
@@ -50,10 +57,11 @@ export default {
 <style scoped>
 .sidebar-container {
   background: var(--nav-bg);
+  z-index: 4;
 }
 .profile-sidebar {
   margin-top: 67px;
-  height: 100vh;
+  height: 80%;
   white-space: nowrap;
   border-right: solid 1px var(--secondary);
   border-image: linear-gradient(
@@ -76,8 +84,6 @@ export default {
   text-decoration: underline;
 }
 .user-msg {
-  /* padding: 5px 5px 10px 5px;
-  margin: 0px 30px 10px 30px; */
   padding: 5px 5px 7px 0px;
   margin: 20px 30px 10px 30px;
   line-height: 28px;
@@ -92,5 +98,16 @@ export default {
 }
 .logout:hover {
   text-decoration: none !important;
+}
+
+.theme {
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+}
+.theme p {
+  font-size: 12px;
+  padding-top: 10px;
 }
 </style>

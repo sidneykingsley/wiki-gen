@@ -25,7 +25,7 @@ const signup = async (email, password) => {
 
     return res
   } catch (err) {
-    console.log(err.message)
+    console.error(err.message)
     error.value = err.message
     isPending.value = false
   }

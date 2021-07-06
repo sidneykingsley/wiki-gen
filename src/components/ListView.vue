@@ -1,9 +1,9 @@
 <template>
   <div class="list">
-    <div v-for="playlist in playlists" :key="playlist.id">
-      <div class="single">
-        <h3>{{ playlist.title }}</h3>
-        <p>{{ playlist.firstName }}</p>
+    <div v-for="article in articles" :key="article.id">
+      <div class="single" @click="handleClick(article.id)">
+        <h3>{{ article.title }}</h3>
+        <p>{{ article.firstName }}</p>
       </div>
     </div>
   </div>
@@ -11,7 +11,14 @@
 
 <script>
 export default {
-  props: ['playlists'],
+  props: ['articles'],
+  emits: ['focused'],
+  setup(props, context) {
+    const handleClick = (id) => {
+      context.emit('focused', id)
+    }
+    return { handleClick }
+  },
 }
 </script>
 
@@ -29,9 +36,6 @@ export default {
   margin: 16px 0;
   transition: all ease 0.2s;
   border: solid 1px var(--off-bg1);
-  /* flex-direction: column;
-  justify-content: center;
-  align-items: flex-start; */
 }
 .single:hover {
   box-shadow: 1px 2px 3px rgba(50, 50, 50, 0.05);

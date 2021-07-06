@@ -39,7 +39,12 @@ export default {
     const password = ref('')
     const firstName = ref('')
     const secondName = ref('')
+    const capitalizeFirstLetter = (string) => {
+      return string.charAt(0).toUpperCase() + string.slice(1)
+    }
     const handleSubmit = async () => {
+      firstName.value = capitalizeFirstLetter(firstName.value)
+      secondName.value = capitalizeFirstLetter(secondName.value)
       const res = await signup(email.value, password.value)
       if (!error.value) {
         addDoc({
@@ -49,7 +54,6 @@ export default {
         })
         if (!addUserDocError.value) {
           router.push({ name: 'Home' })
-          console.log('User signed up.')
         }
       }
     }

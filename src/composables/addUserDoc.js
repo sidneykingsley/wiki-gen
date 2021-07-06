@@ -16,7 +16,7 @@ const addUserDoc = (collection) => {
         .set(doc)
       addUserDocPending.value = false
     } catch (err) {
-      console.log(err.message)
+      console.error(err.message)
       addUserDocError.value = 'could not send the message'
       addUserDocPending.value = false
     }

@@ -28,19 +28,20 @@ export default {
   setup(props, context) {
     const answerError = ref(props.error)
     const formQuestion = ref('')
-    console.log('Props.type = ' + props.type)
     switch (props.type) {
       case 0:
-        formQuestion.value = 'People or things?'
+        // formQuestion.value = 'People or things?'
+        formQuestion.value = 'Do you prefer working with people or with things?'
         break
       case 1:
-        formQuestion.value = 'Ideas or data?'
+        formQuestion.value =
+          'Would you feel more comfortable being tasked with analysing data or coming up with a unqiue ideas?'
         break
       case 2:
-        formQuestion.value = 'Are you sociable?'
+        formQuestion.value = 'Do you consider yourself a sociable person?'
         break
       case 3:
-        formQuestion.value = 'Do you like rules?'
+        formQuestion.value = 'Do you like having rules?'
         break
       case 'err':
         answerError.value = true

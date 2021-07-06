@@ -25,7 +25,7 @@
     <router-link :to="{ name: 'Welcome' }" class="logo">
       <h1>WikiGen</h1>
     </router-link>
-    <router-link :to="{ name: 'GenerateArticle' }">
+    <router-link :to="{ name: 'Generate' }">
       <button class="gen-btn">
         Generate
       </button>
@@ -93,24 +93,13 @@ nav {
   animation-fill-mode: forwards;
   -webkit-text-size-adjust: none;
 }
-.profile-icon a:hover {
-  color: var(--secondary);
-  cursor: pointer;
-}
 .gen-btn {
   margin-right: 20px;
 }
 .profile-icon {
-  height: 50px;
-  width: 30px;
+  height: 25px;
+  width: 25px;
   margin-left: 20px;
-}
-.profile-icon a {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 .acc-ico {
   position: absolute;

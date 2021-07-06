@@ -19,7 +19,7 @@ const getDocument = (collection, id) => {
       }
     },
     (err) => {
-      console.log(err.message)
+      console.error(err.message)
       docError.value = 'problem fetching the document'
     }
   )

@@ -5,20 +5,21 @@ const sqBra2 = /\]/g
 const duplDel = /(\(\!\!\).*\(\!\/\!\))\n.*/g
 const lastReg = /[^\w\s\]]?\s?.?([^\s]+)\s*$/g
 
-const trim = (text, displayName) => {
+const trim = (text, firstName, secondName) => {
   trimmedText.value = text
   trimmedText.value = trimmedText.value.replaceAll(
     'secondnameplaceholder',
-    'Name'
+    secondName
   )
   trimmedText.value = trimmedText.value.replaceAll(
     'firstnameplaceholder',
-    'Test'
+    firstName
   )
   trimmedText.value = trimmedText.value.replaceAll(sqBra1, '<sup>[')
   trimmedText.value = trimmedText.value.replaceAll(sqBra2, ']</sup>')
   trimmedText.value = trimmedText.value.replaceAll(duplDel, '')
   trimmedText.value = trimmedText.value.replaceAll(lastReg, '.')
+  console.log(trimmedText)
   return { trimmedText }
 }
 

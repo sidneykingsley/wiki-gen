@@ -27,12 +27,12 @@ export default {
     const router = useRouter()
     const email = ref('')
     const password = ref('')
-
     const handleSubmit = async () => {
       const res = await login(email.value, password.value)
       if (!error.value) {
-        console.log('User logged in.')
-        router.push({ name: 'Home' })
+        router.push({ name: 'Home' }).then(() => {
+          location.reload()
+        })
       }
     }
 

@@ -3,8 +3,9 @@ import Welcome from '../views/Welcome.vue'
 import Home from '../views/Home.vue'
 import Login from '../views/auth/Login.vue'
 import Signup from '../views/auth/Signup.vue'
-import GenerateArticle from '../views/articles/GenerateArticle.vue'
-import DetailsForm from '../views/articles/DetailsForm.vue'
+import Demo from '../views/articles/Demo.vue'
+import Generate from '../views/articles/Generate.vue'
+import ProfileView from '../views/ProfileView.vue'
 
 // route guard
 import { projectAuth } from '../firebase/config'
@@ -51,15 +52,21 @@ const routes = [
     component: Signup,
   },
   {
-    path: '/generate',
-    name: 'GenerateArticle',
-    component: GenerateArticle,
+    path: '/demo',
+    name: 'Demo',
+    component: Demo,
     beforeEnter: requireAuth,
   },
   {
-    path: '/details',
-    name: 'DetailsForm',
-    component: DetailsForm,
+    path: '/generate',
+    name: 'Generate',
+    component: Generate,
+    beforeEnter: requireAuth,
+  },
+  {
+    path: '/profile',
+    name: 'ProfileView',
+    component: ProfileView,
     beforeEnter: requireAuth,
   },
 ]

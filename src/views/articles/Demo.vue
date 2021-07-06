@@ -39,7 +39,7 @@ export default {
           user.value.displayName
         ).trimmedText.value
       } else {
-        console.log('Error: ' + error)
+        console.error(error)
       }
     }
     return { handleGenerate, isPending, generatedText }
@@ -47,7 +47,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .gen-push {
   display: flex;
   flex-direction: column;

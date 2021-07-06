@@ -8,18 +8,22 @@
         :key="qKey"
         v-if="!submit"
       />
-      <div class="modal" v-if="submit">
-        <p>Hi {{ user.firstName }}</p>
-        <button>Generate</button>
+      <div class="modal" v-if="submit && props.userDoc">
+        <div class="address">
+          <h2>
+            <span style="text-transform: capitalize">
+              Ok {{ props.userDoc.firstName }}.
+            </span>
+            Click generate when you're ready.
+          </h2>
+        </div>
+        <div class="advice">
+          <p>
+            Please stay on the loading page while your article is generated.
+          </p>
+        </div>
+        <button @click="useGenerate">Generate</button>
       </div>
-      <!-- <div v-if="submit">
-        <h1>
-          Your RIASEC code is:
-          <span style="text-transform: uppercase">
-            {{ riasecCode.code }}
-          </span>
-        </h1>
-      </div> -->
     </div>
   </div>
 </template>
@@ -32,9 +36,10 @@ import calculateRiasec from '@/composables/calculateRiasec'
 import getUser from '@/composables/getUser'
 export default {
   components: { Chat },
-  setup() {
+  props: ['userDoc'],
+  emits: ['results'],
+  setup(props, context) {
     const { user } = getUser()
-    console.log(user)
     const qKey = ref(0)
     const qType = ref(0)
     const qError = ref(false)
@@ -67,12 +72,15 @@ export default {
         submit.value = true
       }
     }
-    return { useSubmit, qType, qKey, qError, riasecCode, submit, user }
+    const useGenerate = () => {
+      context.emit('results', riasecCode)
+    }
+    return { props, useSubmit, qType, qKey, qError, submit, useGenerate }
   },
 }
 </script>
 
-<style>
+<style scoped>
 .mobile-form {
   display: flex;
   justify-content: center;
@@ -89,5 +97,33 @@ export default {
 }
 .mobile-form form .submit {
   padding-left: 20px;
+}
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #faf;
+  padding: 40px;
+  border-radius: 20px;
+  background: var(--off-bg2);
+  box-shadow: var(--bg-shadow) 0px 5px 15px;
+  text-align: center;
+}
+.modal .address {
+  max-width: 400px;
+}
+.modal .advice {
+  max-width: 400px;
+}
+.modal h3 {
+  padding: 5px;
+}
+.modal p {
+  padding: 20px;
+  color: var(--off-primary);
+  font-size: 16px;
+}
+.modal button {
+  margin: 10px 0 10px 0;
 }
 </style>
