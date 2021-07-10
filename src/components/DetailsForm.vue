@@ -1,29 +1,34 @@
 <template>
-  <div class="form-container">
-    <div class="mobile-form">
-      <Chat
-        @submit="useSubmit"
-        :type="qType"
-        :error="qError"
-        :key="qKey"
-        v-if="!submit"
-      />
-      <div class="modal" v-if="submit && props.userDoc">
-        <div class="address">
-          <h2>
-            <span style="text-transform: capitalize">
-              Ok {{ props.userDoc.firstName }}.
-            </span>
-            Click generate when you're ready.
-          </h2>
-        </div>
-        <div class="advice">
-          <p>
-            Please stay on the loading page while your article is generated.
-          </p>
-        </div>
-        <button @click="useGenerate">Generate</button>
+  <div class="form-container" :class="{ 'active-modal': submit }">
+    <div class="details-form">
+      <Chat @submit="handleSubmit" :type="qType" :error="qError" :key="qKey" />
+    </div>
+  </div>
+  <div class="modal-container" v-if="submit && props.userDoc">
+    <div class="modal">
+      <div class="address">
+        <h2>
+          <span style="text-transform: capitalize">
+            Ok {{ props.userDoc.firstName }}.
+          </span>
+          Click generate when you're ready.
+        </h2>
       </div>
+      <div class="advice">
+        <p>
+          Please stay on the loading page while your article is generated.
+        </p>
+      </div>
+      <div class="range">
+        <label>Article length:</label>
+        <div class="range-slider">
+          <p class="minus">-</p>
+          <input type="range" min="1000" max="7500" v-model="length" required />
+          <p class="plus">+</p>
+        </div>
+        <p class="length">{{ length }} characters</p>
+      </div>
+      <button @click="handleGenerate">Generate</button>
     </div>
   </div>
 </template>
@@ -33,13 +38,11 @@ import Chat from '@/components/Chat.vue'
 import { ref } from '@vue/reactivity'
 import checkData from '@/assets/check.json'
 import calculateRiasec from '@/composables/calculateRiasec'
-import getUser from '@/composables/getUser'
 export default {
   components: { Chat },
   props: ['userDoc'],
   emits: ['results'],
   setup(props, context) {
-    const { user } = getUser()
     const qKey = ref(0)
     const qType = ref(0)
     const qError = ref(false)
@@ -52,7 +55,8 @@ export default {
       { type: 3, check1: 'c', check2: 'nc' },
     ])
     const submit = ref(true)
-    const useSubmit = (a, type) => {
+    const length = ref(4250)
+    const handleSubmit = (a, type) => {
       var check1 = questions.value[qType.value].check1
       var check2 = questions.value[qType.value].check2
       if (checkData[check1].includes(a)) {
@@ -72,42 +76,36 @@ export default {
         submit.value = true
       }
     }
-    const useGenerate = () => {
-      context.emit('results', riasecCode)
+    const handleGenerate = () => {
+      context.emit('results', riasecCode.value, length.value)
     }
-    return { props, useSubmit, qType, qKey, qError, submit, useGenerate }
+    return {
+      props,
+      handleSubmit,
+      qType,
+      qKey,
+      qError,
+      submit,
+      length,
+      handleGenerate,
+    }
   },
 }
 </script>
 
 <style scoped>
-.mobile-form {
+.details-form {
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
 }
-
-.mobile-form form {
-  padding: 10px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.mobile-form form .submit {
-  padding-left: 20px;
-}
 .modal {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #faf;
-  padding: 40px;
-  border-radius: 20px;
-  background: var(--off-bg2);
-  box-shadow: var(--bg-shadow) 0px 5px 15px;
   text-align: center;
+  padding: 40px;
 }
 .modal .address {
   max-width: 400px;
@@ -123,7 +121,31 @@ export default {
   color: var(--off-primary);
   font-size: 16px;
 }
+.modal .range {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.modal .range-slider {
+  width: 100%;
+  display: flex;
+}
+.modal .range label {
+  padding: 5px;
+}
+.modal .range p {
+  padding: 5px;
+  margin: 0;
+  align-self: center;
+}
+.modal .range-slider p.minus {
+  margin: 0 5px 0 0;
+}
+.modal .range-slider p.plus {
+  margin: 0 0 0 5px;
+}
 .modal button {
-  margin: 10px 0 10px 0;
+  margin: 30px 0 5px 0;
 }
 </style>

@@ -8,11 +8,10 @@
       >
         <div v-if="error" class="error">Could not fetch the data.</div>
         <div v-if="documents">
-          <ListView
-            :key="articleKey"
+          <MyArticlesList
             :articles="documents"
-            :userId="user.uid"
             @focused="handleFocus"
+            :key="articleKey"
           />
         </div>
       </div>
@@ -34,7 +33,7 @@
 </template>
 
 <script>
-import ListView from '../components/ListView.vue'
+import MyArticlesList from '../components/MyArticlesList.vue'
 import ListFocus from '../components/ListFocus.vue'
 import getCollection from '../composables/getCollection'
 import { ref } from '@vue/reactivity'
@@ -42,10 +41,15 @@ import getUser from '../composables/getUser'
 
 export default {
   name: 'Home',
-  components: { ListView, ListFocus },
+  components: { MyArticlesList, ListFocus },
   setup() {
     const { user } = getUser()
-    const { error, documents } = getCollection('articles')
+    const { error, documents } = getCollection('articles', [
+      'uid',
+      '==',
+      user.value.uid,
+    ])
+    console.log(documents)
     const articleKey = ref(0)
     const articleId = ref(null)
     const expanded = ref(false)
@@ -89,7 +93,7 @@ export default {
 .list-container {
   width: 100%;
   height: 100%;
-  border-radius: 0 30px 0px 0;
+  border-radius: 0 20px 0px 0;
   background: var(--background);
   box-shadow: var(--bg-shadow) 0px 5px 15px;
   z-index: 2;

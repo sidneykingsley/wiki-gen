@@ -1,26 +1,38 @@
 <template>
   <nav>
-    <div
-      class="profile-icon"
-      @mouseover="hover = true"
-      @mouseleave="hover = false"
-    >
-      <a @click="handleProfile">
-        <transition name="fade">
-          <AccountCircle
-            fillColor="var(--primary)"
-            v-if="!hover"
-            class="acc-ico"
-          />
-        </transition>
-        <transition name="fade">
-          <AccountCircle
-            fillColor="var(--secondary)"
-            v-if="hover"
-            class="acc-ico"
-          />
-        </transition>
-      </a>
+    <div class="profile-icon-container">
+      <div class="icon" @mouseover="hover = true" @mouseleave="hover = false">
+        <a @click="handleProfile">
+          <transition name="fade">
+            <AccountCircle
+              v-if="!hover && !isProfileNav"
+              class="acc-icon"
+              title="Open navigation"
+            />
+          </transition>
+          <transition name="fade">
+            <AccountCircleOutline
+              v-if="hover && !isProfileNav"
+              class="acc-icon"
+              title="Open navigation"
+            />
+          </transition>
+          <transition name="fade">
+            <CloseCircle
+              v-if="!hover && isProfileNav"
+              class="acc-icon"
+              title="Close navigation"
+            />
+          </transition>
+          <transition name="fade">
+            <CloseCircleOutline
+              v-if="hover && isProfileNav"
+              class="acc-icon"
+              title="Close navigation"
+            />
+          </transition>
+        </a>
+      </div>
     </div>
     <router-link :to="{ name: 'Welcome' }" class="logo">
       <h1>WikiGen</h1>
@@ -36,12 +48,24 @@
 <script>
 import { ref } from '@vue/reactivity'
 import AccountCircle from 'vue3-material-design-icons/AccountCircle.vue'
+import AccountCircleOutline from 'vue3-material-design-icons/AccountCircleOutline.vue'
+import CloseCircle from 'vue3-material-design-icons/CloseCircle.vue'
+import CloseCircleOutline from 'vue3-material-design-icons/CloseCircleOutline.vue'
 export default {
-  components: { AccountCircle },
+  components: {
+    AccountCircle,
+    AccountCircleOutline,
+    CloseCircle,
+    CloseCircleOutline,
+  },
   setup(props, context) {
-    const handleProfile = () => context.emit('profile')
+    const isProfileNav = ref(false)
+    const handleProfile = () => {
+      isProfileNav.value = !isProfileNav.value
+      context.emit('profile')
+    }
     const hover = ref(false)
-    return { handleProfile, hover }
+    return { handleProfile, hover, isProfileNav, context }
   },
 }
 </script>
@@ -96,12 +120,12 @@ nav {
 .gen-btn {
   margin-right: 20px;
 }
-.profile-icon {
+.profile-icon-container .icon {
   height: 25px;
   width: 25px;
-  margin-left: 20px;
 }
-.acc-ico {
+.acc-icon {
   position: absolute;
+  margin-left: 20px;
 }
 </style>

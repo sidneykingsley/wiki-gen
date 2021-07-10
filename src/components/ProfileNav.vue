@@ -1,22 +1,24 @@
 <template>
   <div class="sidebar-container">
-    <div class="profile-sidebar">
-      <p class="user-msg" v-if="userDoc">
-        Hi,
-        <span style="text-transform: capitalize">
-          {{ userDoc.firstName }}
-        </span>
-      </p>
-      <a @click="useNav('Home')">Home</a>
-      <a @click="useNav('')">View Articles</a>
-      <a @click="useNav('ProfileView')">Edit Profile</a>
-      <a @click="handleLogOut" v-if="!isPending">
-        Log out
-      </a>
-      <a v-if="isPending" style="color:var(--off-primary)">
-        Logging out..
-      </a>
-    </div>
+    <transition name="fade">
+      <div class="profile-sidebar" v-if="userDoc">
+        <p class="user-msg">
+          Hi,
+          <span style="text-transform: capitalize">
+            {{ userDoc.firstName }}
+          </span>
+        </p>
+        <a @click="useNav('Home')">Home</a>
+        <a @click="useNav('MyArticles')">My Articles</a>
+        <a @click="useNav('ProfileView')">Edit Profile</a>
+        <a @click="handleLogOut" v-if="!isPending">
+          Log out
+        </a>
+        <a v-if="isPending" style="color:var(--off-primary)">
+          Logging out..
+        </a>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -27,7 +29,7 @@ import getUserDoc from '../composables/getUserDoc'
 
 export default {
   props: ['user'],
-  emits: ['profile'],
+  emits: ['profile', 'routeChanged'],
   setup(props, context) {
     const { userDoc, userDocError, load } = getUserDoc(props.user.uid)
     load()
@@ -35,6 +37,7 @@ export default {
     const router = useRouter()
     const useNav = (dir) => {
       router.push({ name: dir })
+      context.emit('routeChanged')
       context.emit('profile')
     }
     const handleLogOut = async () => {

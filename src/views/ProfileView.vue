@@ -1,13 +1,13 @@
 <template>
   <div class="profile" v-if="userDoc">
     <div class="icon">
-      <AccountCircle size="120" fillColor="var(--off-primary)" />
+      <AccountCircle :size="120" fillColor="var(--off-primary)" />
     </div>
     <div class="name">
       <h2>{{ userDoc.firstName }} {{ userDoc.secondName }}</h2>
+      <div>{{ user.email }}</div>
     </div>
     <div class="details">
-      <div>Email: {{ user.email }}</div>
       <div class="theme">
         <label class="switch">
           <input
@@ -43,11 +43,9 @@ export default {
       theme.value = userDoc.value.theme
       document.documentElement.setAttribute('data-theme', userDoc.value.theme)
     })
-    // let localTheme = localStorage.getItem('theme') //gets stored theme value if any
-    // document.documentElement.setAttribute('data-theme', localTheme) // updates the data-theme attribute
 
     const toggleTheme = () => {
-      theme.value = theme.value == 'darkMode' ? 'lightMode' : 'darkMode' //Toggle
+      theme.value = theme.value == 'darkMode' ? 'lightMode' : 'darkMode'
       var ref = projectFirestore.collection('users').doc(user.value.uid)
       document.documentElement.setAttribute('data-theme', theme.value)
       return ref
@@ -55,7 +53,6 @@ export default {
           theme: theme.value,
         })
         .catch((error) => {
-          // Document doesn't exist.
           console.error('Error updating document: ', error)
         })
     }
@@ -76,15 +73,18 @@ export default {
 .profile div {
   padding-top: 10px;
 }
-.details {
+.profile .name {
+  text-align: center;
+}
+.profile .details {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.details div {
+.profile .details div {
   padding-top: 10px;
 }
-.details .theme {
+.profile .details .theme {
   padding-top: 15px;
   display: flex;
   width: 170px;

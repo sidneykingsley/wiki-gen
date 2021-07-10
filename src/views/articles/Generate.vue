@@ -31,16 +31,15 @@ export default {
     const riasecCode = ref(null)
     const isGenerating = ref(false)
     load()
-    const handleGenerate = async (code) => {
-      //   riasecCode.value = code.value
+    const handleGenerate = async (code, length) => {
+      //   riasecCode.value = code
       riasecCode.value = 'm2'
-      console.log(riasecCode.value)
-      const rndInt = Math.floor(Math.random() * 1000) + 4500
+      // const rndInt = Math.floor(Math.random() * 1000) + 4500
       isGenerating.value = true
       const res = await generateFun(
         '(!!)Article(!/!)\n',
         '/models/wiki-' + riasecCode.value + '/',
-        rndInt
+        length
       )
       if (!error.value) {
         generatedText.value = trim(

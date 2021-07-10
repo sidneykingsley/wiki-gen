@@ -1,55 +1,136 @@
 <template>
-  <div class="article-container">
-    <div class="article-icons">
-      <div class="expand-icon">
-        <ArrowExpand
-          @click="handleExpand"
-          v-if="!props.expanded"
-          class="icon"
-        />
-        <ArrowCollapse
-          @click="handleExpand"
-          v-if="props.expanded"
-          class="icon"
-        />
+  <div>
+    <div
+      class="article-container"
+      v-if="article"
+      :class="{ 'active-modal': tryDelete }"
+    >
+      <div class="article-icons">
+        <div class="icon-container">
+          <ArrowExpand
+            @click="handleExpand"
+            v-if="!props.expanded"
+            class="icon"
+          />
+          <ArrowCollapse
+            @click="handleExpand"
+            v-if="props.expanded"
+            class="icon"
+          />
+        </div>
+        <div class="icon-container">
+          <Close @click="handleClose" v-if="!props.expanded" class="icon" />
+        </div>
       </div>
-      <div class="close-icon">
-        <Close @click="handleClose" v-if="!props.expanded" class="icon" />
+      <div class="article">
+        <h1>{{ article.title }}</h1>
+        <div v-html="article.text" class="gen-text"></div>
+        <div class="details">
+          <p>Author: {{ article.firstName }} {{ article.secondName }}</p>
+          <p>
+            {{
+              article.createdAt.toDate().toLocaleTimeString('en-GB', {
+                hour12: true,
+                hour: '2-digit',
+                minute: '2-digit',
+              })
+            }}
+            &nbsp;|&nbsp;
+            {{ article.createdAt.toDate().toLocaleDateString('en-GB') }}
+          </p>
+          <a
+            class="delete"
+            @click="deleteClicked"
+            v-if="props.userId == article.uid"
+          >
+            Delete article
+          </a>
+        </div>
       </div>
     </div>
-    <div class="article" v-if="article">
-      <h1>{{ article.title }}</h1>
-      <div v-html="article.text" class="gen-text"></div>
-      <div class="details">
-        <p>Author: {{ article.firstName }} {{ article.secondName }}</p>
-        <p>
-          Date:
-          {{ article.createdAt.toDate().toLocaleDateString('en-GB') }}
-        </p>
+    <transition name="fade">
+      <div v-if="tryDelete">
+        <div class="modal-overlay" @click="tryDelete = false"></div>
+        <div class="modal-container">
+          <div class="modal">
+            <div class="icon-container">
+              <Close
+                class="icon"
+                @click="tryDelete = false"
+                title="Close modal"
+              />
+            </div>
+            <form>
+              <h3>Are you sure you want to permanently delete your article?</h3>
+              <p>Article title: {{ article.title }}</p>
+              <div class="buttons">
+                <button
+                  class="cancel"
+                  @click="tryDelete = false"
+                  title="Cancel delete"
+                >
+                  Cancel
+                </button>
+                <button
+                  class="delete"
+                  @click="handleDelete"
+                  title="Delete article"
+                >
+                  Delete
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
 <script>
+import { ref } from '@vue/reactivity'
 import Close from 'vue3-material-design-icons/Close.vue'
 import ArrowExpand from 'vue3-material-design-icons/ArrowExpand.vue'
 import ArrowCollapse from 'vue3-material-design-icons/ArrowCollapse.vue'
+import Delete from 'vue3-material-design-icons/Delete.vue'
+import DeleteOutline from 'vue3-material-design-icons/DeleteOutline.vue'
 import getArticle from '@/composables/getArticle'
+import useDelete from '@/composables/useDelete'
+
 export default {
-  components: { Close, ArrowExpand, ArrowCollapse },
-  props: ['article', 'expanded'],
-  emits: ['close', 'expand'],
+  components: { Close, ArrowExpand, ArrowCollapse, Delete, DeleteOutline },
+  props: ['article', 'expanded', 'userId'],
+  emits: ['close', 'expand', 'deleted'],
   setup(props, context) {
     const { article, articleError, loadArticle } = getArticle(props.article)
     loadArticle()
+    const tryDelete = ref(false)
+    const deleteClicked = () => {
+      if (!props.expanded) {
+        context.emit('expand')
+      }
+      tryDelete.value = true
+    }
+    const handleDelete = () => {
+      useDelete(props.article)
+      context.emit('expand')
+      context.emit('close')
+    }
     const handleClose = () => {
       context.emit('close')
     }
     const handleExpand = () => {
       context.emit('expand')
     }
-    return { props, article, handleClose, handleExpand }
+    return {
+      props,
+      article,
+      handleClose,
+      handleExpand,
+      tryDelete,
+      deleteClicked,
+      handleDelete,
+    }
   },
 }
 </script>
@@ -57,19 +138,16 @@ export default {
 <style scoped>
 .article-container {
   background: var(--off-bg2);
-  height: 100%;
 }
 .article-icons {
   display: flex;
   justify-content: flex-end;
   padding: 5px;
 }
-.expand-icon,
-.close-icon {
+.icon-container {
   margin: 5px 2px;
 }
-.expand-icon:hover,
-.close-icon:hover {
+.icon-container:hover {
   opacity: 0.5;
   transition: 0.3s ease;
 }
@@ -114,5 +192,31 @@ export default {
 .article .details p {
   color: var(--off-primary);
   font-size: 14px;
+}
+.article .details a {
+  color: var(--off-primary);
+  font-size: 14px;
+}
+.article .details .delete {
+  margin-top: 5px;
+  color: var(--warning);
+}
+.article .details .delete:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.article .details .hint {
+  margin-top: 5px;
+}
+.article .details .hint:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.modal .buttons {
+  display: flex;
+}
+.modal button {
+  margin: 20px 7.5px 10px 7.5px;
 }
 </style>

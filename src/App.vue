@@ -3,14 +3,14 @@
     <Sidebar v-if="!user" />
     <ProfileNav
       @profile="showProfile"
+      @routeChanged="navState += 1"
       v-if="profileTog && user"
       :user="user"
-      :key="userState"
     />
     <div class="page-container">
       <div class="header">
         <WelcomeNav v-if="!user" />
-        <Navbar @profile="showProfile" v-else />
+        <Navbar @profile="showProfile" v-else :key="navState" />
       </div>
       <div class="page-content">
         <router-view />
@@ -31,13 +31,11 @@ export default {
   components: { Sidebar, ProfileNav, WelcomeNav, Navbar },
   setup() {
     const { user } = getUser()
-    const userState = ref(0)
-    const userDoc = ref(null)
+    const navState = ref(0)
     if (user.value) {
       const { userDoc, userDocError, load } = getUserDoc(user.value.uid)
       load()
         .then(() => {
-          userState.value += 1
           document.documentElement.setAttribute(
             'data-theme',
             userDoc.value.theme
@@ -50,10 +48,9 @@ export default {
     }
     const profileTog = ref(false)
     const showProfile = () => {
-      userState.value += 1
       profileTog.value = !profileTog.value
     }
-    return { user, showProfile, profileTog, userState }
+    return { user, showProfile, profileTog, navState }
   },
 }
 </script>
@@ -67,6 +64,7 @@ export default {
   display: flex;
   flex-flow: column;
   width: 100%;
+  height: 100%;
 }
 .header {
   flex: 0 1 auto;

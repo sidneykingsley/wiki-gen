@@ -1,6 +1,4 @@
 const calculateRiasec = (weights) => {
-  console.log('weights: ')
-  console.log(weights)
   var code
   if (weights[0] == 'p') {
     if (weights[1] == 'i') {

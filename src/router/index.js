@@ -6,6 +6,7 @@ import Signup from '../views/auth/Signup.vue'
 import Demo from '../views/articles/Demo.vue'
 import Generate from '../views/articles/Generate.vue'
 import ProfileView from '../views/ProfileView.vue'
+import MyArticles from '../views/MyArticles.vue'
 
 // route guard
 import { projectAuth } from '../firebase/config'
@@ -19,7 +20,7 @@ const requireAuth = (to, from, next) => {
   }
 }
 
-const welcomeRedirect = (to, from, next) => {
+const authPresent = (to, from, next) => {
   let user = projectAuth.currentUser
   if (user) {
     next({ name: 'Home' })
@@ -33,7 +34,7 @@ const routes = [
     path: '/',
     name: 'Welcome',
     component: Welcome,
-    beforeEnter: welcomeRedirect,
+    beforeEnter: authPresent,
   },
   {
     path: '/home',
@@ -45,11 +46,13 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
+    beforeEnter: authPresent,
   },
   {
     path: '/signup',
     name: 'Signup',
     component: Signup,
+    beforeEnter: authPresent,
   },
   {
     path: '/demo',
@@ -67,6 +70,12 @@ const routes = [
     path: '/profile',
     name: 'ProfileView',
     component: ProfileView,
+    beforeEnter: requireAuth,
+  },
+  {
+    path: '/articles',
+    name: 'MyArticles',
+    component: MyArticles,
     beforeEnter: requireAuth,
   },
 ]

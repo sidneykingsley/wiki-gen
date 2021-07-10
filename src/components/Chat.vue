@@ -1,21 +1,29 @@
 <template>
-  <h2 v-html="formQuestion"></h2>
-  <p class="error" v-if="answerError">Please be more specific</p>
-  <form @submit.prevent="handleSubmit" class="details-form">
-    <input type="text" required v-model="answer" v-focus />
-    <div class="submit">
-      <button>
-        <SendIcon :size="24" />
-      </button>
-    </div>
-  </form>
+  <div class="chat-container">
+    <h2 v-html="formQuestion"></h2>
+    <p class="error" v-if="answerError">Please be more specific</p>
+    <form @submit.prevent="handleSubmit">
+      <input type="text" required v-model="answer" v-focus />
+      <div class="submit" @mouseover="hover = true" @mouseleave="hover = false">
+        <a @click="handleSubmit">
+          <transition name="fade">
+            <Send v-if="!hover" class="send-icon" />
+          </transition>
+          <transition name="fade">
+            <SendOutline v-if="hover" class="send-icon" />
+          </transition>
+        </a>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script>
 import { ref } from '@vue/reactivity'
-import SendIcon from 'vue3-material-design-icons/Send.vue'
+import Send from 'vue3-material-design-icons/Send.vue'
+import SendOutline from 'vue3-material-design-icons/SendOutline.vue'
 export default {
-  components: { SendIcon },
+  components: { Send, SendOutline },
   props: ['type', 'error'],
   emits: ['submit'],
   directives: {
@@ -26,22 +34,23 @@ export default {
     },
   },
   setup(props, context) {
+    const hover = ref(false)
     const answerError = ref(props.error)
     const formQuestion = ref('')
     switch (props.type) {
       case 0:
-        // formQuestion.value = 'People or things?'
-        formQuestion.value = 'Do you prefer working with people or with things?'
+        formQuestion.value =
+          'Do you prefer working with <span>people</span> or with <span>things</span>?'
         break
       case 1:
         formQuestion.value =
-          'Would you feel more comfortable being tasked with analysing data or coming up with a unqiue ideas?'
+          'Would you feel more comfortable being tasked with analysing <span>data</span> or coming up with unqiue <span>ideas</span>?'
         break
       case 2:
         formQuestion.value = 'Do you consider yourself a sociable person?'
         break
       case 3:
-        formQuestion.value = 'Do you like having rules?'
+        formQuestion.value = 'Do you like having rules to follow?'
         break
       case 'err':
         answerError.value = true
@@ -52,36 +61,38 @@ export default {
     }
     const answer = ref('')
     const handleSubmit = () => {
+      answer.value = answer.value.toLowerCase()
       context.emit('submit', answer.value, props.type)
     }
-    return { handleSubmit, formQuestion, answer, answerError }
+    return { handleSubmit, formQuestion, answer, answerError, hover }
   },
 }
 </script>
 
 <style scoped>
-button {
-  border: 0;
-  border-radius: 0;
-  background: none;
-  color: none;
-  font-family: inherit;
-  white-space: nowrap;
-  text-decoration: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
+.chat-container {
+  max-width: 600px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
-button:hover {
-  border: 0;
-  border-radius: 0;
-  background: none;
-  color: none;
-  font-family: inherit;
-  white-space: nowrap;
-  text-decoration: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
+.chat-container a {
+}
+.chat-container h2 >>> span {
+  text-decoration: underline;
+}
+.chat-container form {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.chat-container form .submit {
+  width: 50px;
+  height: 25px;
+}
+.send-icon {
+  position: absolute;
 }
 </style>
