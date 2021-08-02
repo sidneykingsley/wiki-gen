@@ -7,6 +7,7 @@ import Demo from '../views/articles/Demo.vue'
 import Generate from '../views/articles/Generate.vue'
 import ProfileView from '../views/ProfileView.vue'
 import MyArticles from '../views/MyArticles.vue'
+import About from '../views/About.vue'
 
 // route guard
 import { projectAuth } from '../firebase/config'
@@ -58,7 +59,6 @@ const routes = [
     path: '/demo',
     name: 'Demo',
     component: Demo,
-    beforeEnter: requireAuth,
   },
   {
     path: '/generate',
@@ -77,6 +77,11 @@ const routes = [
     name: 'MyArticles',
     component: MyArticles,
     beforeEnter: requireAuth,
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: About,
   },
 ]
 

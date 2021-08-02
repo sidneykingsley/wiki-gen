@@ -71,7 +71,7 @@ export default {
 
 <style scoped>
 .chat-container {
-  max-width: 600px;
+  max-width: 400px;
   padding: 20px;
   display: flex;
   flex-direction: column;

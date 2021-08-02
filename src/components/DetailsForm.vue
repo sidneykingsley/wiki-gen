@@ -1,36 +1,59 @@
 <template>
   <div class="form-container" :class="{ 'active-modal': submit }">
     <div class="details-form">
-      <Chat @submit="handleSubmit" :type="qType" :error="qError" :key="qKey" />
+      <Chat
+        @submit="handleSubmit"
+        v-if="qType < 4"
+        :type="qType"
+        :error="qError"
+        :key="qKey"
+      />
     </div>
   </div>
-  <div class="modal-container" v-if="submit && props.userDoc">
-    <div class="modal">
-      <div class="address">
-        <h2>
-          <span style="text-transform: capitalize">
-            Ok {{ props.userDoc.firstName }}.
-          </span>
-          Click generate when you're ready.
-        </h2>
-      </div>
-      <div class="advice">
-        <p>
-          Please stay on the loading page while your article is generated.
-        </p>
-      </div>
-      <div class="range">
-        <label>Article length:</label>
-        <div class="range-slider">
-          <p class="minus">-</p>
-          <input type="range" min="1000" max="7500" v-model="length" required />
-          <p class="plus">+</p>
+  <transition name="fade">
+    <div class="modal-container" v-if="submit && props.userDoc">
+      <div class="modal">
+        <div class="address">
+          <h2>
+            <span style="text-transform: capitalize">
+              Ok {{ props.userDoc.firstName }}.
+            </span>
+            Click generate when you're ready.
+          </h2>
         </div>
-        <p class="length">{{ length }} characters</p>
+        <div class="advice">
+          <p>
+            Please stay on the loading page while your article is generated.
+          </p>
+        </div>
+        <div class="range">
+          <label>Article length:</label>
+          <div class="range-slider">
+            <p class="minus">-</p>
+            <input
+              type="range"
+              min="1000"
+              max="7500"
+              v-model="length"
+              :class="{ 'red-slider': length > 4500 }"
+              required
+            />
+            <p class="plus">+</p>
+          </div>
+          <transition name="fade">
+            <p class="length" v-if="length > 4500">
+              Please consider your GPU's load capacity when generating larger
+              articles.
+            </p>
+          </transition>
+          <p class="length" :class="{ 'length-warning': length > 4500 }">
+            {{ length }} characters
+          </p>
+        </div>
+        <button @click="handleGenerate">Generate</button>
       </div>
-      <button @click="handleGenerate">Generate</button>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -54,7 +77,7 @@ export default {
       { type: 2, check1: 's', check2: 'ns' },
       { type: 3, check1: 'c', check2: 'nc' },
     ])
-    const submit = ref(true)
+    const submit = ref(false)
     const length = ref(4250)
     const handleSubmit = (a, type) => {
       var check1 = questions.value[qType.value].check1
@@ -117,7 +140,7 @@ export default {
   padding: 5px;
 }
 .modal p {
-  padding: 20px;
+  padding: 15px;
   color: var(--off-primary);
   font-size: 16px;
 }
@@ -145,7 +168,16 @@ export default {
 .modal .range-slider p.plus {
   margin: 0 0 0 5px;
 }
+.modal .length {
+  max-width: 400px;
+}
+.modal .length-warning {
+  color: var(--warning);
+}
 .modal button {
   margin: 30px 0 5px 0;
+}
+.red-slider::-webkit-slider-thumb {
+  box-shadow: -210px 0 0 200px var(--warning);
 }
 </style>

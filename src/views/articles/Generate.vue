@@ -4,7 +4,7 @@
     v-if="!riasecCode"
     :userDoc="userDoc"
   />
-  <LoadingScreen v-if="isGenerating" />
+  <LoadingScreen v-if="isGenerating" :userDoc="userDoc" />
   <ArticlePreview
     :text="generatedText"
     :userDoc="userDoc"
@@ -32,9 +32,7 @@ export default {
     const isGenerating = ref(false)
     load()
     const handleGenerate = async (code, length) => {
-      //   riasecCode.value = code
-      riasecCode.value = 'm2'
-      // const rndInt = Math.floor(Math.random() * 1000) + 4500
+      riasecCode.value = code.code
       isGenerating.value = true
       const res = await generateFun(
         '(!!)Article(!/!)\n',

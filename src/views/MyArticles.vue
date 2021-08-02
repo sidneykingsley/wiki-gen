@@ -23,6 +23,7 @@
           :article="articleId"
           :userId="user.uid"
           :expanded="expanded"
+          :isMobile="isMobile"
           @close="handleClose"
           @expand="handleExpand"
           @deleted="handleDelete"
@@ -38,18 +39,21 @@ import ListFocus from '../components/ListFocus.vue'
 import getCollection from '../composables/getCollection'
 import { ref } from '@vue/reactivity'
 import getUser from '../composables/getUser'
+import checkMobile from '../composables/checkMobile'
 
 export default {
   name: 'Home',
   components: { MyArticlesList, ListFocus },
   setup() {
+    const isMobile = ref(null)
+    isMobile.value = checkMobile()
+    console.log('Mobile = ' + isMobile.value)
     const { user } = getUser()
     const { error, documents } = getCollection('articles', [
       'uid',
       '==',
       user.value.uid,
     ])
-    console.log(documents)
     const articleKey = ref(0)
     const articleId = ref(null)
     const expanded = ref(false)
@@ -58,12 +62,12 @@ export default {
     }
     const handleClose = () => {
       articleId.value = null
+      expanded.value = false
     }
     const handleExpand = () => {
       expanded.value = !expanded.value
     }
     const handleDelete = () => {
-      console.log('Delete emitted function ran')
       articleKey.value += 1
     }
     return {
@@ -77,6 +81,7 @@ export default {
       handleExpand,
       handleDelete,
       expanded,
+      isMobile,
     }
   },
 }

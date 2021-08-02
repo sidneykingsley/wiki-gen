@@ -2,24 +2,32 @@
   <div class="form-container">
     <form @submit.prevent="handleSubmit">
       <h3>Sign up</h3>
-      <input
-        type="text"
-        placeholder="First name"
-        v-model="firstName"
-        style="text-transform: capitalize"
-        v-focus
-      />
-      <input
-        type="text"
-        placeholder="Second name"
-        v-model="secondName"
-        style="text-transform: capitalize"
-      />
+      <div class="signup-name">
+        <input
+          type="text"
+          placeholder="First name"
+          v-model="firstName"
+          class="first-name"
+          v-focus
+        />
+        <input
+          type="text"
+          placeholder="Second name"
+          v-model="secondName"
+          style="text-transform: capitalize"
+        />
+      </div>
       <input type="email" placeholder="Email" v-model="email" />
       <input type="password" placeholder="Password" v-model="password" />
       <div class="error">{{ error }}</div>
       <button v-if="!isPending">Sign up</button>
       <button v-if="isPending" disabled>Loading</button>
+      <p class="login-text">
+        Already have an account?
+        <router-link :to="{ name: 'Signup' }" class="signup-link">
+          Log in here.
+        </router-link>
+      </p>
     </form>
   </div>
 </template>
@@ -70,3 +78,25 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.login-text,
+.login-link {
+  color: grey;
+  padding-top: 25px;
+  font-size: 14px;
+}
+.login-link {
+  text-decoration: underline;
+}
+.signup-name {
+  display: flex;
+}
+.signup-name input {
+  text-transform: capitalize;
+  margin-bottom: 0px;
+}
+.signup-name .first-name {
+  margin-right: 20px;
+}
+</style>

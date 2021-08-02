@@ -1,11 +1,14 @@
 <template>
+  <div class="no-articles" v-if="articles.length == 0">
+    <p>
+      You haven't made any articles yet!
+      <router-link :to="{ name: 'Generate' }">Generate one now?</router-link>
+    </p>
+  </div>
   <div class="list">
     <div v-for="article in articles" :key="article.id">
       <div class="single" @click="handleClick(article.id)">
         <div class="square">
-          <!-- <div class="date">
-            <p>{{ article.createdAt.toDate().toLocaleDateString('en-GB') }}</p>
-          </div> -->
           <div class="icon">
             <FileDocument :size="100" fillColor="var(--off-primary)" />
           </div>
@@ -29,12 +32,30 @@ export default {
     const handleClick = (id) => {
       context.emit('focused', id)
     }
+    console.log(props.articles.length)
     return { handleClick }
   },
 }
 </script>
 
 <style scoped>
+.no-articles {
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.no-articles p {
+  padding: 20px;
+  text-align: center;
+}
+.no-articles a {
+  font-weight: 600;
+}
+.no-articles a:hover {
+  opacity: 0.5;
+  transition: 0.3s ease;
+}
 .list {
   padding: 10px 20px;
   display: flex;

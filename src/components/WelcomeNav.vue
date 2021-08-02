@@ -1,10 +1,21 @@
 <template>
-  <nav>
+  <nav class="welcome-nav">
     <div class="login-signup">
+      <div
+        class="open-tab"
+        :class="{
+          'demo-tab': tabState == 'Demo',
+        }"
+        v-if="tabState !== 'Login' && tabState !== 'Signup'"
+      >
+        <router-link :to="{ name: tabState }" class="tab-link">
+          {{ tabState }}
+        </router-link>
+      </div>
       <div
         :class="{
           'open-tab': tabState == 'Login',
-          'closed-tab': tabState == 'Signup' || tabState == 'Other',
+          'closed-tab': tabState !== 'Login',
         }"
       >
         <router-link :to="{ name: 'Login' }" class="tab-link">
@@ -13,14 +24,18 @@
       </div>
       <div
         :class="{
-          'closed-tab': tabState == 'Login' || tabState == 'Other',
           'open-tab': tabState == 'Signup',
+          'closed-tab': tabState !== 'Signup',
         }"
       >
         <router-link :to="{ name: 'Signup' }" class="tab-link">
           Sign up
         </router-link>
       </div>
+    </div>
+    <div class="night-mode-toggle">
+      <Moon class="icon" @click="handleTheme" v-if="tempTheme == 'lightMode'" />
+      <Sun class="icon" @click="handleTheme" v-if="tempTheme == 'darkMode'" />
     </div>
   </nav>
 </template>
@@ -29,11 +44,15 @@
 import { watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { ref } from '@vue/reactivity'
+import Moon from 'vue3-material-design-icons/MoonWaxingCrescent.vue'
+import Sun from 'vue3-material-design-icons/WeatherSunny.vue'
 
 export default {
+  components: { Moon, Sun },
   setup() {
     const route = useRoute()
     const tabState = ref(null)
+    const tempTheme = ref('lightMode')
 
     watch(route, () => {
       if (route.name == 'Login') {
@@ -41,20 +60,25 @@ export default {
       } else if (route.name == 'Signup') {
         tabState.value = 'Signup'
       } else {
-        tabState.value = 'Other'
+        tabState.value = route.name
       }
     })
 
-    return { tabState }
+    const handleTheme = () => {
+      tempTheme.value = tempTheme.value == 'darkMode' ? 'lightMode' : 'darkMode'
+      document.documentElement.setAttribute('data-theme', tempTheme.value)
+    }
+
+    return { tabState, handleTheme, tempTheme }
   },
 }
 </script>
 
 <style scoped>
-nav {
+.welcome-nav {
   background: var(--nav-bg);
   display: flex;
-  align-items: flex-end;
+  justify-content: space-between;
   margin: 0 auto;
   height: 65px;
   border-bottom: solid 1px var(--secondary);
@@ -97,6 +121,8 @@ nav {
     rgba(255, 255, 255, 0),
     var(--background)
   );
+  border-top: solid 0px;
+  border-bottom: solid 0px;
 }
 .closed-tab {
   padding: 0 10px;
@@ -115,11 +141,6 @@ nav {
   border-top: 0;
   border-bottom: solid 1px var(--secondary);
   border-image-width: 0 1px 1px 1px;
-  /* background: linear-gradient(
-    to bottom,
-    var(--nav-bg),
-    rgba(176, 214, 245, 0.5)
-  ); */
   background: linear-gradient(to bottom, var(--nav-bg), var(--ombre));
 }
 .open-tab .tab-link,
@@ -131,5 +152,16 @@ nav {
 .closed-tab .tab-link {
   color: var(--links);
   padding-bottom: 7.5px;
+}
+.demo-tab {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    var(--off-bg2)
+  );
+}
+.welcome-nav .night-mode-toggle {
+  align-self: center;
+  padding: 20px;
 }
 </style>

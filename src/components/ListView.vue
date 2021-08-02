@@ -2,13 +2,15 @@
   <div class="list">
     <div v-for="article in articles" :key="article.id">
       <div class="single" @click="handleClick(article.id)">
-        <div class="square" :class="{ owned: article.uid == props.userId }">
+        <div
+          class="square home-square"
+          :class="{ owned: article.uid == props.userId }"
+        >
           <FileDocument :size="50" fillColor="var(--off-primary)" />
         </div>
         <div class="title">
           <h3>{{ article.title }}</h3>
           <p>{{ article.firstName }}</p>
-          <!-- <p>{{ article.firstName }} {{ article.secondName }}</p> -->
         </div>
         <p>{{ article.createdAt.toDate().toLocaleDateString('en-GB') }}</p>
       </div>

@@ -2,17 +2,27 @@
   <div class="sidebar-container">
     <div class="sidebar">
       <router-link :to="{ name: 'Welcome' }" class="logo">
-        <span class="dot"></span>
+        <!-- <span class="dot"></span> -->
+        <img src="images/logo.png" />
         <h1>WikiGen</h1>
+        <h2>DAT611</h2>
       </router-link>
       <div class="links">
-        <a href="">About WikiGen</a>
+        <router-link :to="{ name: 'Welcome' }">Generation Demo</router-link>
+        <router-link :to="{ name: 'About' }">About WikiGen</router-link>
         <div class="sub-links">
-          <a href="">Technologies</a>
-          <a href="">Data Collection</a>
+          <router-link :to="{ name: 'About' }">
+            ML Technologies
+          </router-link>
+          <router-link :to="{ name: 'About' }">Data Collection</router-link>
+        </div>
+        <router-link :to="{ name: 'Login' }">Your Account</router-link>
+        <div class="sub-links">
+          <router-link :to="{ name: 'Signup' }">Create an Account</router-link>
         </div>
       </div>
     </div>
+    <div class="sidebar-edge"></div>
   </div>
 </template>
 
@@ -42,19 +52,24 @@ export default {
 <style scoped>
 .sidebar-container {
   background: var(--nav-bg);
+  background: linear-gradient(to bottom, var(--nav-bg) 80%, var(--background));
+  z-index: 9;
+  display: flex;
+}
+.sidebar-edge {
+  background: #000;
+  width: 1px;
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0),
+    var(--secondary) 70%
+  );
+  margin-top: 65px;
 }
 .sidebar {
   min-height: 90%;
-  margin-top: 50px;
+  margin-top: 10px;
   white-space: nowrap;
-  border-right: solid 1px var(--secondary);
-  border-image: linear-gradient(
-      to top,
-      rgba(255, 255, 255, 0),
-      var(--secondary)
-    )
-    27/1px;
-  border-image-width: 0 1px 0 0;
   display: flex;
   flex-direction: column;
 }
@@ -64,12 +79,23 @@ export default {
   justify-content: center;
   align-items: center;
 }
+.logo img {
+  width: 100px;
+  padding-bottom: 5px;
+}
 .logo h1 {
   font-family: LL-d, 'Georgia', 'Times', serif;
   text-transform: capitalize;
   font-variant: small-caps;
   letter-spacing: 1px;
-  font-size: 26px;
+  font-size: 28px;
+}
+.logo h2 {
+  font-family: LL-d, 'Georgia', 'Times', serif;
+  text-transform: capitalize;
+  font-variant: small-caps;
+  letter-spacing: 1px;
+  font-size: 14px;
 }
 .logo .dot {
   height: 100px;
@@ -82,11 +108,13 @@ export default {
 .links {
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
+  margin: 20px 20px 0 20px;
+  padding-top: 15px;
+  border-top: 1px solid var(--primary);
 }
 .links a {
   font-size: 14px;
-  padding: 10px 30px;
+  padding: 5px 10px 10px 10px;
   color: var(--links);
 }
 .links a:hover {

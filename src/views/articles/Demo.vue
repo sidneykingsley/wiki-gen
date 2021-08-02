@@ -8,7 +8,7 @@
       Loading
     </button>
   </div>
-  <h1 class="section-heading">Test Name</h1>
+  <h1 class="section-heading">Demo Article</h1>
   <p class="tag-text">
     From WikiGen, the free AI crystal ball
   </p>
@@ -27,16 +27,17 @@ export default {
     const generatedText = ref(null)
     const handleGenerate = async () => {
       generatedText.value = 'Loading...'
-      const rndInt = Math.floor(Math.random() * 1000) + 4500
+      const rndInt = Math.floor(Math.random() * 1000) + 1500
       const res = await generateFun(
         '(!!)Article(!/!)\n',
-        '/models/wiki-m2/',
+        '/models/old/wiki-o3/',
         rndInt
       )
       if (!error.value) {
         generatedText.value = trim(
           res.resStr,
-          user.value.displayName
+          'Demo',
+          'Person'
         ).trimmedText.value
       } else {
         console.error(error)

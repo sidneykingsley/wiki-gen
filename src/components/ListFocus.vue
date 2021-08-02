@@ -6,7 +6,7 @@
       :class="{ 'active-modal': tryDelete }"
     >
       <div class="article-icons">
-        <div class="icon-container">
+        <div class="icon-container" v-if="!isMobile">
           <ArrowExpand
             @click="handleExpand"
             v-if="!props.expanded"
@@ -19,7 +19,7 @@
           />
         </div>
         <div class="icon-container">
-          <Close @click="handleClose" v-if="!props.expanded" class="icon" />
+          <Close @click="handleClose" class="icon" />
         </div>
       </div>
       <div class="article">
@@ -99,11 +99,15 @@ import useDelete from '@/composables/useDelete'
 
 export default {
   components: { Close, ArrowExpand, ArrowCollapse, Delete, DeleteOutline },
-  props: ['article', 'expanded', 'userId'],
+  props: ['article', 'expanded', 'userId', 'isMobile'],
   emits: ['close', 'expand', 'deleted'],
   setup(props, context) {
     const { article, articleError, loadArticle } = getArticle(props.article)
     loadArticle()
+    if (props.isMobile) {
+      console.log(props.isMobile)
+      context.emit('expand')
+    }
     const tryDelete = ref(false)
     const deleteClicked = () => {
       if (!props.expanded) {

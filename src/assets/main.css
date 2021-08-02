@@ -92,6 +92,7 @@ button,
   cursor: pointer;
   display: inline-block;
   transition: 0.3s ease-in;
+  font-size: 14px;
 }
 button:hover,
 .btn:hover {
@@ -114,7 +115,7 @@ button:disabled {
   align-items: center;
 }
 form {
-  max-width: 400px;
+  width: 400px;
   text-align: center;
 }
 input,
@@ -128,6 +129,7 @@ textarea {
   box-sizing: border-box;
   margin: 20px auto;
   background-color: var(--background);
+  font-size: 13px;
 }
 form button {
   margin-top: 10px;
@@ -167,7 +169,7 @@ form .error {
   padding: 20px;
   border-radius: 20px;
   background: var(--off-bg2);
-  box-shadow: var(--bg-shadow) 0px 5px 15px;
+  box-shadow: var(--bg-shadow) 0px 0px 15px;
 }
 .modal form {
   padding: 0px 20px 10px 20px;
@@ -344,6 +346,18 @@ input:checked + .slider:before {
   }
 }
 
+@keyframes generating-shine {
+  0% {
+    background-position: 0;
+  }
+  60% {
+    background-position: 900px;
+  }
+  100% {
+    background-position: 900px;
+  }
+}
+
 /* RESPONSIVE styling: Mobile */
 @media (max-width: 480px) {
   .modal-container {
@@ -358,6 +372,40 @@ input:checked + .slider:before {
   }
   .list {
     justify-content: center;
+  }
+  form {
+    width: 100%;
+  }
+  .form-container {
+    padding: 0 20px;
+  }
+  .signup-name {
+    display: flex;
+    flex-direction: column;
+  }
+  .welcome-nav {
+    height: 40px !important;
+  }
+  .welcome-nav .night-mode-toggle {
+    margin-top: 7px;
+    padding: 0 10px !important;
+  }
+  .single .home-square {
+    height: 100% !important;
+    margin-left: 10px;
+  }
+  .single h3 {
+    font-size: 18px !important;
+  }
+  form input,
+  form textarea {
+    font-size: 16px;
+  }
+  form h3 {
+    font-size: 22px;
+  }
+  .no-articles {
+    height: 100px !important;
   }
 }
 

@@ -1,3 +1,4 @@
+// This composable is used to work out the user's RAISEC code from their question path
 const calculateRiasec = (weights) => {
   var code
   if (weights[0] == 'p') {
@@ -38,7 +39,7 @@ const calculateRiasec = (weights) => {
         if (weights[3] == 'nc') {
           code = 'r'
         } else if (weights[3] == 'c') {
-          code = 'e'
+          code = 'c'
         }
       } else if (weights[2] == 's') {
         if (weights[3] == 'nc') {
@@ -48,6 +49,13 @@ const calculateRiasec = (weights) => {
         }
       }
     }
+  }
+
+  //Randomising the model picked for A as there are three trained models for this RIASEC code
+  if ((code = 'a')) {
+    let value = Math.floor(Math.random() * 3)
+    value = value.toString()
+    code = code + value
   }
 
   return { code }

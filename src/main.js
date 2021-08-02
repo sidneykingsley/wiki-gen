@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-
 //IMPORT global styles
 import './assets/main.css'
 
